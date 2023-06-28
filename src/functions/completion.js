@@ -2,11 +2,11 @@ import { Configuration, OpenAIApi } from 'openai';
 
 // stable_difusion
 
+
 function Completion() {
     const configuration = new Configuration({
-        apiKey: "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", // Reemplaza con tu propia clave de API de OpenAI
+        apiKey: "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", // Reemplaza con tu propia clave de API de OpenAI
     });
-
     const openai = new OpenAIApi(configuration);
 
     const createSummary = async (url) => {

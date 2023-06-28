@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Aos from "aos";
 import Navbar from "./components/navbar";
-import GetNews from "./functions/get_news";
-import GetArgNews from "./functions/getArgNews";
-import GetOneNews from "./functions/getOneNews";
-import SearchNews from "./functions/searchNews";
-import GetTechnoNews from "./functions/getTechnoNews";
+import GetNews from "./components/get_news";
+import GetArgNews from "./components/getArgNews";
+import GetOneNews from "./components/getOneNews";
+import SearchNews from "./components/searchNews";
+import GetTechnoNews from "./components/getTechnoNews";
 
 function App() {
   useEffect(() => {

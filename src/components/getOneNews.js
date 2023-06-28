@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Completion from './completion';
+import Completion from '../functions/completion';
 import { SpinStretch } from "react-cssfx-loading";
 
-const API = process.env.REACT_APP_API;
 
 function GetOneNews() {
+    
+    const API = process.env.REACT_APP_API;
+
     const [news, setNews] = useState([]);
     const [summary, setSummary] = useState('');
     const [isLoading, setIsLoading] = useState(true); // Estado de carga
@@ -19,6 +21,7 @@ function GetOneNews() {
         const data = await res.json();
         setNews(data);
 
+        console.log(data)
         // Crear el resumen utilizando la función createSummary de Completion
         setIsLoading(true); // Establecer el estado de carga a true
 
@@ -29,7 +32,7 @@ function GetOneNews() {
 
     useEffect(() => {
         getOneNews();
-    });
+    }, []);
 
     return (
         <div className="container w-100 m-auto mt-2">

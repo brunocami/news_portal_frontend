@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'aos/dist/aos.css';
+import ShuffleArray from '../functions/shuffleArray';
+import GetDolar from '../functions/dolarApi';
 
 const API = process.env.REACT_APP_API;
 
@@ -8,10 +10,15 @@ function GetNews() {
     const [news, setNews] = useState([]);
     const navigate = useNavigate();
 
+    // FUNCION PARA ORDENAR LAS NOTICIAS DE MANERA ALEATORIA CADA VEZ QUE SE RECARGA LA PAGINA
+    const { shuffleArray } = ShuffleArray()
+
     const getNews = async () => {
         const res = await fetch(`${API}/`);
         const data = await res.json();
-        setNews(data);
+        // Ordenar las noticias de manera aleatoria
+        const shuffledNews = shuffleArray(data);
+        setNews(shuffledNews);
     };
 
     useEffect(() => {
@@ -42,8 +49,12 @@ function GetNews() {
         event.target.style.color = 'initial';
     };
 
+    // Función para mezclar el orden de un array
+
+
     return (
         <section className="py-4 py-lg-5 container m-auto w-100">
+            <GetDolar/>
             <div className="row d-flex justify-content-center p-1">
                 {news.map((newsItem) => (
                     <div
