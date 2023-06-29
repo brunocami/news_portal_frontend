@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import 'aos/dist/aos.css'
 
 
-const API = process.env.REACT_APP_API
+const API = process.env.REACT_APP_API_URL
 
 function GetArgNews() {
 

@@ -4,7 +4,7 @@ import 'aos/dist/aos.css';
 import ShuffleArray from '../functions/shuffleArray';
 import GetDolar from '../functions/dolarApi';
 
-const API = process.env.REACT_APP_API;
+const API = process.env.REACT_APP_API_URL;
 
 function GetNews() {
     const [news, setNews] = useState([]);

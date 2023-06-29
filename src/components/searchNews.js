@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const API = process.env.REACT_APP_API
+const API = process.env.REACT_APP_API_URL
 
 function SearchNews() {
 

@@ -4,13 +4,16 @@ import { Configuration, OpenAIApi } from 'openai';
 
 
 function Completion() {
-    const OPENAI_API_KEY='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'
+    
+    const OPENAI_API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
     const configuration = new Configuration({
         apiKey: OPENAI_API_KEY, // Reemplaza con tu propia clave de API de OpenAI
     });
     const openai = new OpenAIApi(configuration);
 
+    
     const createSummary = async (url) => {
+        console.log(OPENAI_API_KEY)
         try {
 
             const respuesta = await openai.createCompletion({

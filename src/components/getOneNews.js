@@ -5,7 +5,7 @@ import { SpinStretch } from "react-cssfx-loading";
 
 function GetOneNews() {
     
-    const API = process.env.REACT_APP_API;
+    const API = process.env.REACT_APP_API_URL;
 
     const [news, setNews] = useState([]);
     const [summary, setSummary] = useState('');
