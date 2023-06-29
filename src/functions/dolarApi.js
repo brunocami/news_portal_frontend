@@ -24,7 +24,6 @@ function GetDolar() {
         });
 
         setDolar(filteredData);
-        console.log(dolar)
     };
 
     useEffect(() => {
