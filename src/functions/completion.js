@@ -13,7 +13,6 @@ function Completion() {
 
     
     const createSummary = async (url) => {
-        console.log(OPENAI_API_KEY)
         try {
 
             const respuesta = await openai.createCompletion({
