@@ -21,7 +21,6 @@ function GetOneNews() {
         const data = await res.json();
         setNews(data);
 
-        console.log(data)
         // Crear el resumen utilizando la función createSummary de Completion
         setIsLoading(true); // Establecer el estado de carga a true
 

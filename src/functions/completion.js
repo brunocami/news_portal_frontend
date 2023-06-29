@@ -4,8 +4,9 @@ import { Configuration, OpenAIApi } from 'openai';
 
 
 function Completion() {
+    const OPENAI_API_KEY='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'
     const configuration = new Configuration({
-        apiKey: "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", // Reemplaza con tu propia clave de API de OpenAI
+        apiKey: OPENAI_API_KEY, // Reemplaza con tu propia clave de API de OpenAI
     });
     const openai = new OpenAIApi(configuration);
 
