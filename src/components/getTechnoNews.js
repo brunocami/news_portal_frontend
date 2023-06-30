@@ -88,9 +88,9 @@ function GetTechnoNews() {
     return (
         <section className="py-4 py-lg-5 container">
             <div className="row d-flex justify-content-center">
-                {techNews.map((newsItem) => (
+                {techNews.map((newsItem , index) => (
                     <div
-                        className="col-sm-6 col-md-4 col-lg-3 p-1"
+                        className={`card col-lg-${index === 0 ? '6' : index === 3 || index === 4 ? '6' : '3'} col-md-4 col-sm-6 p-1 bg-transparent`}
                         data-aos="fade-zoom-in"
                         data-aos-offset="200"
                         key={newsItem._id}

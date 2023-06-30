@@ -18,20 +18,20 @@ function GetNews() {
       } else {
         try {
           const res = await fetch(`${API}/`);
-    
+
           if (res.ok) {
             const data = await res.json();
             const news = data.data;
-    
+
             // FILTRAR LAS NOTICIAS SIN IMAGEN
             const filteredNews = news.filter((item) => item.image !== null);
-    
+
             // AGREGAR ID A CADA NOTICIA
             const newsWithId = filteredNews.map((item) => {
               const id = generateId();
               return { ...item, id };
             });
-    
+
             // GUARDAR LAS NOTICIAS EN EL LOCAL STORAGE
             localStorage.setItem('generalNews', JSON.stringify(newsWithId));
             setGeneralNews(newsWithId);
@@ -86,9 +86,9 @@ function GetNews() {
     <section className="py-4 py-lg-5 container m-auto w-100">
       <GetDolar />
       <div className="row d-flex justify-content-center p-1">
-        {generalNews.map((generalNewsItem) => (
+        {generalNews.map((generalNewsItem, index) => (
           <div
-            className=" card col-sm-6 col-md-4 col-lg-3 p-1 bg-transparent"
+            className={`card col-lg-${index === 0 ? '6' : index === 3 || index === 4 ? '6' : '3'} col-md-4 col-sm-6 p-1 bg-transparent`}
             data-aos="fade-zoom-in"
             data-aos-offset="200"
             key={generalNewsItem.id}
