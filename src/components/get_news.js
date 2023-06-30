@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'aos/dist/aos.css';
-import ShuffleArray from '../functions/shuffleArray';
 import GetDolar from '../functions/dolarApi';
 
 const API = process.env.REACT_APP_API_URL;
@@ -10,35 +9,31 @@ function GetNews() {
   const [generalNews, setGeneralNews] = useState([]);
   const navigate = useNavigate();
 
-  // FUNCION PARA ORDENAR LAS NOTICIAS DE MANERA ALEATORIA CADA VEZ QUE SE RECARGA LA PAGINA
-  const { shuffleArray } = ShuffleArray();
-
   useEffect(() => {
     // OBTENER LAS NOTICIAS DEL LOCAL STORAGE O REALIZAR UNA SOLICITUD PARA OBTENERLAS
     const fetchNews = async () => {
-      const storedNews = localStorage.getItem('news');
-
+      const storedNews = localStorage.getItem('generalNews'); // Utiliza getItem en lugar de acceder directamente a localStorage.news
       if (storedNews) {
-        setGeneralNews(JSON.parse(storedNews));
+        setGeneralNews(JSON.parse(storedNews)); // Parsea la cadena de texto a objeto utilizando JSON.parse
       } else {
         try {
           const res = await fetch(`${API}/`);
-
+    
           if (res.ok) {
             const data = await res.json();
             const news = data.data;
-
+    
             // FILTRAR LAS NOTICIAS SIN IMAGEN
             const filteredNews = news.filter((item) => item.image !== null);
-
+    
             // AGREGAR ID A CADA NOTICIA
             const newsWithId = filteredNews.map((item) => {
               const id = generateId();
               return { ...item, id };
             });
-
+    
             // GUARDAR LAS NOTICIAS EN EL LOCAL STORAGE
-            localStorage.setItem('news', JSON.stringify(newsWithId));
+            localStorage.setItem('generalNews', JSON.stringify(newsWithId));
             setGeneralNews(newsWithId);
           } else {
             console.log('Error al obtener las noticias:', res.status);
@@ -93,15 +88,15 @@ function GetNews() {
       <div className="row d-flex justify-content-center p-1">
         {generalNews.map((generalNewsItem) => (
           <div
-            className="col-sm-6 col-md-4 col-lg-3 p-1 bg-transparent"
+            className=" card col-sm-6 col-md-4 col-lg-3 p-1 bg-transparent"
             data-aos="fade-zoom-in"
             data-aos-offset="200"
-            key={generalNewsItem._id}
+            key={generalNewsItem.id}
           >
             <div className="card-body">
               <h5
                 className="card-title"
-                onClick={() => handleCardClick(generalNewsItem._id)}
+                onClick={() => handleCardClick(generalNewsItem.id)}
                 style={titleStyle}
                 onMouseEnter={handleTitleHover}
                 onMouseLeave={handleTitleLeave}
@@ -120,7 +115,7 @@ function GetNews() {
                 src={generalNewsItem.image}
                 className="card-img-bottom"
                 alt="..."
-                onClick={() => handleCardClick(generalNewsItem._id)}
+                onClick={() => handleCardClick(generalNewsItem.id)}
                 style={titleStyle}
                 onMouseEnter={handleTitleHover}
                 onMouseLeave={handleTitleLeave}

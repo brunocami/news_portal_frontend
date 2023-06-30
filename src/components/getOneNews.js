@@ -4,10 +4,8 @@ import { SpinStretch } from "react-cssfx-loading";
 
 
 function GetOneNews() {
-    
-    const API = process.env.REACT_APP_API_URL;
 
-    const [news, setNews] = useState([]);
+    const [oneNews, setOneNews] = useState([]);
     const [summary, setSummary] = useState('');
     const [isLoading, setIsLoading] = useState(true); // Estado de carga
 
@@ -17,33 +15,59 @@ function GetOneNews() {
         // Obtener el ID de la URL
         const newsId = window.location.pathname.split('/').pop();
 
-        const res = await fetch(`${API}/news/${newsId}`);
-        const data = await res.json();
-        setNews(data);
+        // Buscar la noticia en el localStorage
+        const storedGeneralNews = localStorage.getItem('generalNews');
+        const storedArgNews = localStorage.getItem('argNews');
+        const storedTechNews = localStorage.getItem('techNews');
 
-        // Crear el resumen utilizando la función createSummary de Completion
-        setIsLoading(true); // Establecer el estado de carga a true
+        let selectedNews = null;
 
-        const resumen = await createSummary(data.url);
-        setSummary(resumen);
-        setIsLoading(false); // Establecer el estado de carga a false una vez se haya generado el resumen
+        if (storedGeneralNews) {
+            const generalNewsList = JSON.parse(storedGeneralNews);
+            selectedNews = generalNewsList.find((item) => item.id === newsId);
+        }
+
+        if (!selectedNews && storedArgNews) {
+            const argNewsList = JSON.parse(storedArgNews);
+            selectedNews = argNewsList.find((item) => item.id === newsId);
+        }
+
+        if (!selectedNews && storedTechNews) {
+            const techNewsList = JSON.parse(storedTechNews);
+            selectedNews = techNewsList.find((item) => item.id === newsId);
+        }
+
+        if (selectedNews) {
+            // La noticia ha sido encontrada, puedes hacer lo que necesites con ella
+            setOneNews(selectedNews)
+            // Crear el resumen utilizando la función createSummary de Completion
+            setIsLoading(true); // Establecer el estado de carga a true
+
+            const resumen = await createSummary(selectedNews.url);
+            setSummary(resumen);
+            setIsLoading(false); // Establecer el estado de carga a false una vez se haya generado el resumen
+        } else {
+            // La noticia no ha sido encontrada en ninguno de los objetos del localStorage
+            console.log('No se encontró la noticia con el ID:', newsId);
+        }
     };
+
 
     useEffect(() => {
         getOneNews();
-    }, []);
+    }, [oneNews]);
 
     return (
         <div className="container w-100 m-auto mt-2">
-            <h3 className="card-header">{news.title}</h3>
+            <h3 className="card-header">{oneNews.title}</h3>
             <div className="card-body">
-                <h5 className="card-title">{news.description}</h5>
-                <h6 className="card-subtitle text-muted">{news.author} - {news.published_at}+</h6>
+                <h5 className="card-title">{oneNews.description}</h5>
+                <h6 className="card-subtitle text-muted">{oneNews.author} - {oneNews.published_at}+</h6>
             </div>
             <div className="row p-1">
                 <div className="col-lg-6 p-2 d-flex align-items-center">
                     <img
-                        src={news.image}
+                        src={oneNews.image}
                         className="card-img-bottom w-100 img-fluid rounded"
                         alt="..."
                     />
@@ -56,7 +80,7 @@ function GetOneNews() {
                                 <SpinStretch />
                             </div>
                         ) : (
-                            <p className={`card-text ${news.image ? 'mt-4 mt-lg-0' : ''} fs-4`}>{summary}</p> // Resumen generado
+                            <p className={`card-text ${oneNews.image ? 'mt-4 mt-lg-0' : ''} fs-4`}>{summary}</p> // Resumen generado
                         )}
                     </div>
                 </div>

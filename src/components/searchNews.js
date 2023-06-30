@@ -1,29 +1,62 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const API = process.env.REACT_APP_API_URL
 
 function SearchNews() {
 
-    const [news, setNews] = useState([])
+    const [searchNews, setSearchNews] = useState([]);
     const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
         const keyword = new URLSearchParams(location.search).get('keyword');
-        getNews(keyword);
-        console.log(keyword)
+        SearchNews(keyword);
     }, [location]);
 
-    const getNews = async (keyword) => {
-        try {
-            const res = await fetch(`${API}/news/search?keyword=${keyword}`);
-            const data = await res.json();
-            setNews(data);
-            console.log(data)
-        } catch (error) {
-            console.error('Error al obtener las noticias:', error);
+    // OBTENER LAS NOTICIAS DEL LOCAL STORAGE O REALIZAR UNA SOLICITUD PARA OBTENERLAS
+    const SearchNews = async (keyword) => {
+        const storedNews = localStorage.getItem('searchNews'); // Utiliza getItem en lugar de acceder directamente a localStorage.news
+        if (storedNews) {
+            setSearchNews(JSON.parse(storedNews)); // Parsea la cadena de texto a objeto utilizando JSON.parse
+        } else {
+            try {
+                const res = await fetch(`${API}/news/${keyword}`);
+
+                if (res.ok) {
+                    const data = await res.json();
+                    const news = data.data;
+
+                    // FILTRAR LAS NOTICIAS SIN IMAGEN
+                    const filteredNews = news.filter((item) => item.image !== null);
+
+                    // AGREGAR ID A CADA NOTICIA
+                    const newsWithId = filteredNews.map((item) => {
+                        const id = generateId();
+                        return { ...item, id };
+                    });
+
+                    // GUARDAR LAS NOTICIAS EN EL LOCAL STORAGE
+                    localStorage.setItem('searchNews', JSON.stringify(newsWithId));
+                    setSearchNews(newsWithId);
+                } else {
+                    console.log('Error al obtener las noticias:', res.status);
+                }
+            } catch (error) {
+                console.log('Error en la solicitud:', error);
+            }
         }
+    };
+
+    // GENERAR UN ID ALEATORIO
+    const generateId = () => {
+        const characters = 'abcdef0123456789';
+        let id = '';
+        for (let i = 0; i < 24; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            id += characters.charAt(randomIndex);
+        }
+        return id;
     };
 
     const handleCardClick = (id) => {
@@ -50,10 +83,10 @@ function SearchNews() {
         event.target.style.color = 'initial';
     };
 
-  return (
-    <section className="py-4 py-lg-5 container">
+    return (
+        <section className="py-4 py-lg-5 container">
             <div className="row d-flex justify-content-center">
-                {news.map((newsItem) => (
+                {searchNews.map((newsItem) => (
                     <div
                         className="card col-sm-6 col-md-4 col-lg-3 p-0 m-1"
                         data-aos="fade-zoom-in"
@@ -92,7 +125,7 @@ function SearchNews() {
                 ))}
             </div>
         </section>
-  )
+    )
 }
 
 export default SearchNews
