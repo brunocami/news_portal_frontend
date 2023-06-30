@@ -15,9 +15,9 @@ function GetDolar() {
             if (nombre === "dolar contado con liqui" || nombre === "dolar soja" || nombre === "dolar") {
                 return false;
             } else if (nombre === "dolar turista") {
-                item.casa.nombre == "turista";
+                item.casa.nombre = "turista";
             } else if (nombre === "bitcoin") {
-                item.casa.venta == item.casa.compra;
+                item.casa.venta = item.casa.compra;
             }
 
             return true;
