@@ -15,28 +15,46 @@ function SearchNews() {
     }, [location]);
 
     // OBTENER LAS NOTICIAS DEL LOCAL STORAGE O REALIZAR UNA SOLICITUD PARA OBTENERLAS
-    const SearchNews = async (keyword) => {
-        const storedNews = localStorage.getItem('searchNews'); // Utiliza getItem en lugar de acceder directamente a localStorage.news
+    const SearchNews = async (searchedWord) => {
+        const storedNews = localStorage.getItem('searchNews');
         if (storedNews) {
-            setSearchNews(JSON.parse(storedNews)); // Parsea la cadena de texto a objeto utilizando JSON.parse
+            const parsedNews = JSON.parse(storedNews);
+            const filteredNews = parsedNews.filter((item) => item.topic === searchedWord);
+            if (filteredNews.length > 0) {
+                setSearchNews(filteredNews);
+            } else {
+                try {
+                    const res = await fetch(`${API}/news/${searchedWord}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        const news = data.data;
+                        const filteredNews = news.filter((item) => item.image !== null);
+                        const newsWithId = filteredNews.map((item) => {
+                            const id = generateId();
+                            const topic = searchedWord;
+                            return { ...item, id, topic };
+                        });
+                        localStorage.setItem('searchNews', JSON.stringify(newsWithId));
+                        setSearchNews(newsWithId);
+                    } else {
+                        console.log('Error al obtener las noticias:', res.status);
+                    }
+                } catch (error) {
+                    console.log('Error en la solicitud:', error);
+                }
+            }
         } else {
             try {
-                const res = await fetch(`${API}/news/${keyword}`);
-
+                const res = await fetch(`${API}/news/${searchedWord}`);
                 if (res.ok) {
                     const data = await res.json();
                     const news = data.data;
-
-                    // FILTRAR LAS NOTICIAS SIN IMAGEN
                     const filteredNews = news.filter((item) => item.image !== null);
-
-                    // AGREGAR ID A CADA NOTICIA
                     const newsWithId = filteredNews.map((item) => {
                         const id = generateId();
-                        return { ...item, id };
+                        const topic = searchedWord;
+                        return { ...item, id, topic };
                     });
-
-                    // GUARDAR LAS NOTICIAS EN EL LOCAL STORAGE
                     localStorage.setItem('searchNews', JSON.stringify(newsWithId));
                     setSearchNews(newsWithId);
                 } else {
@@ -47,6 +65,7 @@ function SearchNews() {
             }
         }
     };
+
 
     // GENERAR UN ID ALEATORIO
     const generateId = () => {
