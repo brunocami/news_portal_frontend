@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Completion from '../functions/completion';
 import { SpinStretch } from "react-cssfx-loading";
+import { Link } from 'react-router-dom';
 
 
 function GetOneNews() {
@@ -79,11 +80,12 @@ function GetOneNews() {
                     <div className="card-body">
                         {isLoading ? (
                             <div className='d-flex justify-content-center'>
-                                <p className="card-text fs-4" style={{ marginRight: '15px' }}>Creando resumen de la noticia</p>
+                                <p className="card-text fs-4" style={{ marginRight: '15px' }}>Cargando noticia</p>
                                 <SpinStretch />
                             </div>
                         ) : (
-                            <p className={`card-text ${oneNews.image ? 'mt-4 mt-lg-0' : ''} fs-4`}>{summary}</p> // Resumen generado
+                            // <p className={`card-text ${oneNews.image ? 'mt-4 mt-lg-0' : ''} fs-4`}>{summary}</p> // Resumen generado
+                            <Link class="btn btn-lg btn-info w-100" to={oneNews.url}>Ver Nota Completa</Link>
                         )}
                     </div>
                 </div>
