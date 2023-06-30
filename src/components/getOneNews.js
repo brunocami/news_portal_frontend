@@ -55,7 +55,7 @@ function GetOneNews() {
 
     useEffect(() => {
         getOneNews();
-    }, [oneNews]);
+    }, []);
 
     return (
         <div className="container w-100 m-auto mt-2">

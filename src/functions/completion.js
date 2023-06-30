@@ -10,7 +10,6 @@ function Completion() {
         apiKey: OPENAI_API_KEY, // Reemplaza con tu propia clave de API de OpenAI
     });
     const openai = new OpenAIApi(configuration);
-
     
     const createSummary = async (url) => {
         try {

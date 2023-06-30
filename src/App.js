@@ -7,6 +7,7 @@ import GetArgNews from "./components/getArgNews";
 import GetOneNews from "./components/getOneNews";
 import SearchNews from "./components/searchNews";
 import GetTechnoNews from "./components/getTechnoNews";
+import Error404 from "./components/error404";
 
 function App() {
   useEffect(() => {
@@ -21,6 +22,7 @@ function App() {
             <Route path="/news/:id" Component={GetOneNews} />
             <Route path="/news/search" Component={SearchNews} />
             <Route path="/news/technology" Component={GetTechnoNews} />
+            <Route Component={Error404} />
           </Routes>
       </Router>
   );
