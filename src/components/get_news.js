@@ -14,6 +14,7 @@ function GetNews() {
   const { shuffleArray } = ShuffleArray();
 
   useEffect(() => {
+    // OBTENER LAS NOTICIAS DEL LOCAL STORAGE O REALIZAR UNA SOLICITUD PARA OBTENERLAS
     const fetchNews = async () => {
       const storedNews = localStorage.getItem('news');
 
@@ -27,9 +28,18 @@ function GetNews() {
             const data = await res.json();
             const news = data.data;
 
-            // Guardar las noticias en el localStorage
-            localStorage.setItem('news', JSON.stringify(news));
-            setGeneralNews(news);
+            // FILTRAR LAS NOTICIAS SIN IMAGEN
+            const filteredNews = news.filter((item) => item.image !== null);
+
+            // AGREGAR ID A CADA NOTICIA
+            const newsWithId = filteredNews.map((item) => {
+              const id = generateId();
+              return { ...item, id };
+            });
+
+            // GUARDAR LAS NOTICIAS EN EL LOCAL STORAGE
+            localStorage.setItem('news', JSON.stringify(newsWithId));
+            setGeneralNews(newsWithId);
           } else {
             console.log('Error al obtener las noticias:', res.status);
           }
@@ -41,6 +51,17 @@ function GetNews() {
 
     fetchNews();
   }, []);
+
+  // GENERAR UN ID ALEATORIO
+  const generateId = () => {
+    const characters = 'abcdef0123456789';
+    let id = '';
+    for (let i = 0; i < 24; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      id += characters.charAt(randomIndex);
+    }
+    return id;
+  };
 
   const handleCardClick = (id) => {
     navigate(`/news/${id}`);
