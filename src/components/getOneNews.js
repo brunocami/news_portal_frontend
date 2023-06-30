@@ -43,9 +43,12 @@ function GetOneNews() {
             // Crear el resumen utilizando la función createSummary de Completion
             setIsLoading(true); // Establecer el estado de carga a true
 
-            const resumen = await createSummary(selectedNews.url);
-            setSummary(resumen);
-            setIsLoading(false); // Establecer el estado de carga a false una vez se haya generado el resumen
+            // BLOQUEE LA FUNCION CREATESUMMARY PORQUE ME GENERO UN RATE LIMIT MUY ALTO 
+            setTimeout(() => {
+                // const resumen = await createSummary(selectedNews.url);
+                // setSummary(resumen);
+                setIsLoading(false); // Establecer el estado de carga a false una vez se haya generado el resumen
+              }, 3000);
         } else {
             // La noticia no ha sido encontrada en ninguno de los objetos del localStorage
             console.log('No se encontró la noticia con el ID:', newsId);
