@@ -35,7 +35,7 @@ function GetDolar() {
     }
 
     return (
-        <div className="d-sm-none d-md-flex justify-content-center align-bottom row">
+        <div className="d-none d-md-flex justify-content-center align-bottom row">
             {dolar.map((dolarItem) => (
                 dolarItem.casa.nombre == "Argentina" ?
                     <div key={dolarItem.casa.nombre} className="card text-center col-md-4 col-lg-2" >
