@@ -16,10 +16,10 @@ function GetOneNews() {
         // Obtener el ID de la URL
         const newsId = window.location.pathname.split('/').pop();
 
-        // Buscar la noticia en el localStorage
-        const storedGeneralNews = localStorage.getItem('generalNews');
-        const storedArgNews = localStorage.getItem('argNews');
-        const storedTechNews = localStorage.getItem('techNews');
+        // Buscar la noticia en el sessionStorage
+        const storedGeneralNews = sessionStorage.getItem('generalNews');
+        const storedArgNews = sessionStorage.getItem('argNews');
+        const storedTechNews = sessionStorage.getItem('techNews');
 
         let selectedNews = null;
 
@@ -51,7 +51,7 @@ function GetOneNews() {
                 setIsLoading(false); // Establecer el estado de carga a false una vez se haya generado el resumen
               }, 3000);
         } else {
-            // La noticia no ha sido encontrada en ninguno de los objetos del localStorage
+            // La noticia no ha sido encontrada en ninguno de los objetos del sessionStorage
             console.log('No se encontró la noticia con el ID:', newsId);
         }
     };

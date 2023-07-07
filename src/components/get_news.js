@@ -12,7 +12,7 @@ function GetNews() {
   useEffect(() => {
     // OBTENER LAS NOTICIAS DEL LOCAL STORAGE O REALIZAR UNA SOLICITUD PARA OBTENERLAS
     const fetchNews = async () => {
-      const storedNews = localStorage.getItem('generalNews'); // Utiliza getItem en lugar de acceder directamente a localStorage.news
+      const storedNews = sessionStorage.getItem('generalNews'); // Utiliza getItem en lugar de acceder directamente a sessionStorage.news
       if (storedNews) {
         setGeneralNews(JSON.parse(storedNews)); // Parsea la cadena de texto a objeto utilizando JSON.parse
       } else {
@@ -33,7 +33,7 @@ function GetNews() {
             });
 
             // GUARDAR LAS NOTICIAS EN EL LOCAL STORAGE
-            localStorage.setItem('generalNews', JSON.stringify(newsWithId));
+            sessionStorage.setItem('generalNews', JSON.stringify(newsWithId));
             setGeneralNews(newsWithId);
           } else {
             console.log('Error al obtener las noticias:', res.status);

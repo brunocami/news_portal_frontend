@@ -16,7 +16,7 @@ function SearchNews() {
 
     // OBTENER LAS NOTICIAS DEL LOCAL STORAGE O REALIZAR UNA SOLICITUD PARA OBTENERLAS
     const SearchNews = async (searchedWord) => {
-        const storedNews = localStorage.getItem('searchNews');
+        const storedNews = sessionStorage.getItem('searchNews');
         if (storedNews) {
             const parsedNews = JSON.parse(storedNews);
             const filteredNews = parsedNews.filter((item) => item.topic === searchedWord);
@@ -34,7 +34,7 @@ function SearchNews() {
                             const topic = searchedWord;
                             return { ...item, id, topic };
                         });
-                        localStorage.setItem('searchNews', JSON.stringify(newsWithId));
+                        sessionStorage.setItem('searchNews', JSON.stringify(newsWithId));
                         setSearchNews(newsWithId);
                     } else {
                         console.log('Error al obtener las noticias:', res.status);
@@ -55,7 +55,7 @@ function SearchNews() {
                         const topic = searchedWord;
                         return { ...item, id, topic };
                     });
-                    localStorage.setItem('searchNews', JSON.stringify(newsWithId));
+                    sessionStorage.setItem('searchNews', JSON.stringify(newsWithId));
                     setSearchNews(newsWithId);
                 } else {
                     console.log('Error al obtener las noticias:', res.status);
