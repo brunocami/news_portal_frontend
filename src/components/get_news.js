@@ -83,46 +83,48 @@ function GetNews() {
   };
 
   return (
-    <section className="py-4 py-lg-5 container m-auto w-100">
+    <section>
       <GetDolar />
-      <div className="row d-flex justify-content-center p-1">
-        {generalNews.map((generalNewsItem, index) => (
-          <div
-            className={`card col-lg-${index === 0 ? '6' : index === 3 || index === 4 ? '6' : '3'} col-md-4 col-sm-6 p-1 bg-transparent`}
-            data-aos="fade-zoom-in"
-            data-aos-offset="200"
-            key={generalNewsItem.id}
-          >
-            <div className="card-body">
-              <h5
-                className="card-title"
-                onClick={() => handleCardClick(generalNewsItem.id)}
-                style={titleStyle}
-                onMouseEnter={handleTitleHover}
-                onMouseLeave={handleTitleLeave}
-              >
-                {generalNewsItem.title}
-              </h5>
-              <p className="card-text" style={descriptionTruncated}>
-                {generalNewsItem.description}
-              </p>
-              <p className="card-text">
-                <small className="text-muted">{generalNewsItem.published_at}</small>
-              </p>
+      <div className="py-2 py-lg-3 container" >
+        <div className="row d-flex justify-content-center p-1">
+          {generalNews.map((generalNewsItem, index) => (
+            <div
+              className={`card col-lg-${index === 0 ? '6' : index === 3 || index === 4 ? '6' : '3'} col-md-4 col-sm-6 p-1 bg-transparent`}
+              data-aos="fade-zoom-in"
+              data-aos-offset="200"
+              key={generalNewsItem.id}
+            >
+              <div className="card-body">
+                <h5
+                  className="card-title"
+                  onClick={() => handleCardClick(generalNewsItem.id)}
+                  style={titleStyle}
+                  onMouseEnter={handleTitleHover}
+                  onMouseLeave={handleTitleLeave}
+                >
+                  {generalNewsItem.title}
+                </h5>
+                <p className="card-text" style={descriptionTruncated}>
+                  {generalNewsItem.description}
+                </p>
+                <p className="card-text">
+                  <small className="text-muted">{generalNewsItem.published_at}</small>
+                </p>
+              </div>
+              {generalNewsItem.image ? (
+                <img
+                  src={generalNewsItem.image}
+                  className="card-img-bottom"
+                  alt="..."
+                  onClick={() => handleCardClick(generalNewsItem.id)}
+                  style={titleStyle}
+                  onMouseEnter={handleTitleHover}
+                  onMouseLeave={handleTitleLeave}
+                />
+              ) : null}
             </div>
-            {generalNewsItem.image ? (
-              <img
-                src={generalNewsItem.image}
-                className="card-img-bottom"
-                alt="..."
-                onClick={() => handleCardClick(generalNewsItem.id)}
-                style={titleStyle}
-                onMouseEnter={handleTitleHover}
-                onMouseLeave={handleTitleLeave}
-              />
-            ) : null}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

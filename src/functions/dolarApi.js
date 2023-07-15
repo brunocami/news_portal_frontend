@@ -12,12 +12,10 @@ function GetDolar() {
         const filteredData = data.filter((item) => {
             const nombre = item.casa.nombre.toLowerCase();
 
-            if (nombre === "dolar contado con liqui" || nombre === "dolar soja" || nombre === "dolar") {
+            if (nombre === "dolar contado con liqui" || nombre === "dolar soja" || nombre === "dolar" || nombre === "bitcoin" || nombre === "dolar turista") {
                 return false;
             } else if (nombre === "dolar turista") {
                 item.casa.nombre = "turista";
-            } else if (nombre === "bitcoin") {
-                item.casa.venta = item.casa.compra;
             }
 
             return true;
@@ -35,33 +33,19 @@ function GetDolar() {
     }
 
     return (
-        <div className="d-none d-md-flex justify-content-center align-bottom row">
-            {dolar.map((dolarItem) => (
-                dolarItem.casa.nombre == "Argentina" ?
-                    <div key={dolarItem.casa.nombre} className="card text-center col-md-4 col-lg-2" >
-                        <div className="card-body">
-                            <h5 className="card-title">Riesgo Pais</h5>
-                            <p className="card-text text-light bg-dark">{dolarItem.casa.compra}</p>
-                            <p className="card-text text-light bg-dark">{dolarItem.casa.venta}</p>
-                        </div>
+        <div className="container-fluid">
+            <div className="d-none d-md-flex row p-0 row border-bottom">
+                {dolar.map((dolarItem) => (
+                    <div key={dolarItem.casa.nombre} className="col mt-3 p-0 row">
+                        <p className="col fs-6 text-center">
+                            {dolarItem.casa.nombre === "Argentina" ? "Riesgo Pais" : dolarItem.casa.nombre}
+                        </p>
+                        <p className="col text-black fs-6 ">
+                            {dolarItem.casa.nombre === "Argentina" ? dolarItem.casa.compra : `$ ${dolarItem.casa.venta}`}
+                        </p>
                     </div>
-                    : dolarItem.casa.variacion >= 0 ?
-                        <div key={dolarItem.casa.nombre} className="card text-center col-md-4 col-lg-2" >
-                            <div className="card-body">
-                                <h5 className="card-title">{dolarItem.casa.nombre}</h5>
-                                <p className="card-text text-light bg-dark">$ {dolarItem.casa.venta}</p>
-                                <p className="card-text text-light bg-success"> <BiChevronsUp /> {dolarItem.casa.variacion}</p>
-                            </div>
-                        </div>
-                        :
-                        <div key={dolarItem.casa.nombre} className="card text-center col-md-4 col-lg-2" >
-                            <div className="card-body">
-                                <h5 className="card-title">{dolarItem.casa.nombre}</h5>
-                                <p className="card-text text-light bg-dark">$ {dolarItem.casa.venta}</p>
-                                <p className="card-text text-light bg-danger"><BiChevronsDown /> {dolarItem.casa.variacion}</p>
-                            </div>
-                        </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 }

@@ -85,7 +85,12 @@ function GetArgNews() {
 
 
     return (
-        <section className="py-4 py-lg-5 container">
+        <section className="container">
+            <div className="container-fluid border-bottom my-3">
+                <div className="mb-2">
+                    <h4>Argentina   </h4>
+                </div>
+            </div>
             <div className="row d-flex justify-content-center">
                 {argNews.map((newsItem, index) => (
                     <div

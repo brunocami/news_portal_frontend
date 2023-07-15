@@ -45,11 +45,11 @@ function GetOneNews() {
             setIsLoading(true); // Establecer el estado de carga a true
 
             // BLOQUEE LA FUNCION CREATESUMMARY PORQUE ME GENERO UN RATE LIMIT MUY ALTO 
-            setTimeout(() => {
-                // const resumen = await createSummary(selectedNews.url);
-                // setSummary(resumen);
+            setTimeout( async () => {
+                const resumen = await createSummary(selectedNews.url);
+                setSummary(resumen);
                 setIsLoading(false); // Establecer el estado de carga a false una vez se haya generado el resumen
-              }, 3000);
+            }, 3000);
         } else {
             // La noticia no ha sido encontrada en ninguno de los objetos del sessionStorage
             console.log('No se encontró la noticia con el ID:', newsId);
@@ -84,8 +84,8 @@ function GetOneNews() {
                                 <SpinStretch />
                             </div>
                         ) : (
-                            // <p className={`card-text ${oneNews.image ? 'mt-4 mt-lg-0' : ''} fs-4`}>{summary}</p> // Resumen generado
-                            <Link class="btn btn-lg btn-info w-100" to={oneNews.url}>Ver Nota Completa</Link>
+                            <p className={`card-text ${oneNews.image ? 'mt-4 mt-lg-0' : ''} fs-4`}>{summary}</p> // Resumen generado
+                            // <Link class="btn btn-lg btn-info w-100" to={oneNews.url}>Ver Nota Completa</Link>
                         )}
                     </div>
                 </div>
